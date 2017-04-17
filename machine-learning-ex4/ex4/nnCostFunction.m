@@ -73,16 +73,21 @@ J = J+J_reg;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
-for t = 1:m
-    out = Y(t,:)';
-    delta_3 = A3(t,:)'-out;
-    Theta2_grad = Theta2_grad + delta_3*A2(t, :);
-    tmp = A2(t, :)';
-    delta_2 = Theta2'*delta_3.*tmp.*(1-tmp);
-    %alternative but should slower way
-    %delta_2 = Theta2'*delta_3.*[1; sigmoidGradient(Z2(t, :)')];
-    Theta1_grad = Theta1_grad + delta_2(2:end)*A1(t, :);
-end
+%for t = 1:m
+    %out = Y(t,:)';
+    %delta_3 = A3(t,:)'-out;
+    %Theta2_grad = Theta2_grad + delta_3*A2(t, :);
+    %tmp = A2(t, :)';
+    %delta_2 = Theta2'*delta_3.*tmp.*(1-tmp);
+    %%alternative but slower way
+    %%delta_2 = Theta2'*delta_3.*[1; sigmoidGradient(Z2(t, :)')];
+    %Theta1_grad = Theta1_grad + delta_2(2:end)*A1(t, :);
+%end
+D3 = A3-Y;
+D2 = D3*Theta2.*A2.*(1-A2);
+Theta1_grad = D2(:,2:end)'*A1;
+Theta2_grad = D3'*A2;
+
 Theta1_grad = Theta1_grad ./ m;
 Theta2_grad = Theta2_grad ./ m;
 
@@ -100,25 +105,6 @@ Theta2_grad_reg = Theta2 .* lambda ./ m;
 Theta2_grad_reg(:, 1) = zeros(size(Theta2, 1), 1);
 Theta1_grad = Theta1_grad + Theta1_grad_reg;
 Theta2_grad = Theta2_grad + Theta2_grad_reg;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 % -------------------------------------------------------------
 
 % =========================================================================
