@@ -66,6 +66,7 @@ end
 theta_t = theta_t(:);
 costFunc = @(t)(smCostFunction(t, X_t, Y_t, 2)); 
 [J, grad] = costFunc(theta_t);
+
 numgrad = computeNumericalGradient(costFunc, theta_t);
 % Visually examine the two gradient computations.  The two columns
 % you get should be very similar. 
@@ -84,7 +85,7 @@ end
 
 
 initial_theta= rand(n, num_labels-1)*0.001;
-options = optimset('MaxIter', 200);
+options = optimset('MaxIter', 500);
 theta = fmincg (@(t)(smCostFunction(t, X_train, Y, num_labels)), initial_theta(:), options);
 all_theta = reshape(theta, n, num_labels-1);
 pred = predictOneVsAll(all_theta', X);
