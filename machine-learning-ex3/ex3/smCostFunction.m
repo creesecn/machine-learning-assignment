@@ -1,4 +1,4 @@
-function [J, grad] = smCostFunction(theta, X, y, num_labels)
+function [J, grad] = smCostFunction(theta, X, Y, num_labels)
 %softmax cost function
 m = size(X, 1);
 %y
@@ -6,11 +6,6 @@ param_size = size(X, 2);
 %size(theta)
 grad = zeros(size(theta));
 theta = reshape(theta, param_size, num_labels-1);
-Y = zeros(num_labels, m);
-%size(Y)
-for c = 1:m
-    Y(y(c), c) = 1;
-end
 %Y(:, 1)
 %theta(1, :)
 %theta for last K lable is always zero
@@ -26,14 +21,14 @@ sumexp = sum(expm);
 probm = expm ./ sumexp;
 h=bsxfun(@times, Y, log(probm));
 %h
-J = -1*sum(sum(h));
+J = -1/m*sum(sum(h));
 %size(probm)
 %X
 %Y
 %probm
 %Y-probm
 %X'*(Y-probm)'
-grad = -1*X'*(Y - probm)';
+grad = -1/m*X'*(Y - probm)';
 grad = grad(:, 1:end-1);
 grad = grad(:);
 %size(grad)

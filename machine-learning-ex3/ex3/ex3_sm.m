@@ -58,21 +58,34 @@ numgrad = computeNumericalGradient(costFunc, theta_t);
 disp([numgrad grad])
 
 
+Y_t = zeros(2, 5);
+for c = 1:5
+    Y_t(y_t(c)+1, c) = 1;
+end
+
 theta_t = theta_t(:);
-costFunc = @(t)(smCostFunction(t, X_t, y_t+1, 2)); 
+costFunc = @(t)(smCostFunction(t, X_t, Y_t, 2)); 
 [J, grad] = costFunc(theta_t);
 numgrad = computeNumericalGradient(costFunc, theta_t);
 % Visually examine the two gradient computations.  The two columns
 % you get should be very similar. 
 disp([numgrad grad]);
 %fprintf('grad size %d\n', size(grad));
+fprintf('Program paused. Press enter to continue.\n');
+pause;
 
 X_train = [ones(m, 1) X];
 n = size(X_train, 2);
+%Y binary array
+Y = zeros(num_labels, m);
+for c = 1:m
+    Y(y(c), c) = 1;
+end
+
 
 initial_theta= rand(n, num_labels-1)*0.001;
 options = optimset('MaxIter', 200);
-theta = fmincg (@(t)(smCostFunction(t, X_train, y, num_labels)), initial_theta(:), options);
+theta = fmincg (@(t)(smCostFunction(t, X_train, Y, num_labels)), initial_theta(:), options);
 all_theta = reshape(theta, n, num_labels-1);
 pred = predictOneVsAll(all_theta', X);
 
