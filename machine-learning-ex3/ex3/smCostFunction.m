@@ -9,8 +9,9 @@ theta=[theta, zeros(param_size,1)];
 expm = exp(theta'*X');
 sumexp = sum(expm);
 %dup sum row match expm to avoid automatic broadcasting warning
-sumexp = repmat(sum(expm), num_labels, 1);
-probm = expm ./ sumexp;
+%sumexp = repmat(sum(expm), num_labels, 1);
+%probm = expm ./ sumexp;
+probm = bsxfun(@rdivide, expm, sumexp);
 h = bsxfun(@times, Y, log(probm));
 J = -1/m*sum(sum(h));
 grad = -1/m*X'*(Y - probm)';
