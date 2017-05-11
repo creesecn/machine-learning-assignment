@@ -25,16 +25,12 @@ centroids = zeros(K, n);
 %
 % Note: You can use a for-loop over the centroids to compute this.
 %
-
-
-
-
-
-
-
+for i = 1:K
+    onehotvec = (idx==i)';
+    entry_n = length(find(onehotvec==1));
+    centroids(i,:) = onehotvec*X./entry_n;
+end
 
 % =============================================================
-
-
 end
 
