@@ -43,13 +43,15 @@ Theta_grad = zeros(size(Theta));
 diffMatrix = (X*Theta'-Y);
 J = sum(sum(diffMatrix.^2.*R))/2;
 J = J+lambda/2*sum(sum(Theta.^2))+lambda/2*sum(sum(X.^2));
-for n = 1:num_movies
-    X_grad(n,:) = ((Theta*X(n,:)'-Y(n,:)').*R(n,:)')'*Theta+lambda*X(n,:);
-end
+%for n = 1:num_movies
+%    X_grad(n,:) = ((Theta*X(n,:)'-Y(n,:)').*R(n,:)')'*Theta+lambda*X(n,:);
+%end
 
-for n = 1:num_users
-    Theta_grad(n,:) = ((X*Theta(n,:)'-Y(:,n)).*R(:,n))'*X+lambda*Theta(n,:);
-end
+%for n = 1:num_users
+%    Theta_grad(n,:) = ((X*Theta(n,:)'-Y(:,n)).*R(:,n))'*X+lambda*Theta(n,:);
+%end
+X_grad = ((Theta*X'-Y').*R')'*Theta+lambda*X;
+Theta_grad = ((X*Theta'-Y).*R)'*X+lambda*Theta;
 
 
 
